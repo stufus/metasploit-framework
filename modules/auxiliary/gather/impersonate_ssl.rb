@@ -13,7 +13,11 @@ class Metasploit4 < Msf::Auxiliary
   def initialize(info={})
     super(update_info(info,
       'Name'        => 'HTTP SSL Certificate Impersonation',
-      'Author'      => ' Chris John Riley',
+      'Author'      => 
+          [ 
+            'Chris John Riley',
+            'Stuart Morgan <stuart.morgan[at]mwrinfosecurity.com>', # Fix a bug where the created cert does not quite mirror the remote cert & add offline mode
+          ],
       'References'  =>
           [
             ['URL', 'http://www.slideshare.net/ChrisJohnRiley/ssl-certificate-impersonation-for-shits-andgiggles']
