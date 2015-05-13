@@ -13,7 +13,11 @@ class Metasploit4 < Msf::Auxiliary
   def initialize(info={})
     super(update_info(info,
       'Name'        => 'HTTP SSL Certificate Impersonation',
-      'Author'      => ' Chris John Riley',
+      'Author'      => 
+          [ 
+            'Chris John Riley',
+            'Stuart Morgan <stuart.morgan[at]mwrinfosecurity.com>', # Fix a bug where the created cert does not quite mirror the remote cert & add offline mode
+          ],
       'References'  =>
           [
             ['URL', 'http://www.slideshare.net/ChrisJohnRiley/ssl-certificate-impersonation-for-shits-andgiggles']
@@ -37,6 +41,8 @@ class Metasploit4 < Msf::Auxiliary
         OptString.new('PRIVKEY_PASSWORD', [false, "Password for private key specified in PRIV_KEY (if applicable)", nil]),
         OptPath.new('CA_CERT',            [false, "CA Public certificate", nil]),
         OptString.new('ADD_CN',           [false, "Add CN to match spoofed site name (e.g. *.example.com)", nil])
+        OptPath.new('LOCAL_FILE',            [false, "Read the certificate from the local file instead of online", nil]),
+        OptString.new('RHOST',       [false, "The remote host", nil]),
       ], self.class)
 
     register_advanced_options(
