@@ -41,6 +41,8 @@ class Metasploit4 < Msf::Auxiliary
         OptString.new('PRIVKEY_PASSWORD', [false, "Password for private key specified in PRIV_KEY (if applicable)", nil]),
         OptPath.new('CA_CERT',            [false, "CA Public certificate", nil]),
         OptString.new('ADD_CN',           [false, "Add CN to match spoofed site name (e.g. *.example.com)", nil])
+        OptPath.new('LOCAL_FILE',            [false, "Read the certificate from the local file instead of online", nil]),
+        OptString.new('RHOST',       [false, "The remote host", nil]),
       ], self.class)
 
     register_advanced_options(
