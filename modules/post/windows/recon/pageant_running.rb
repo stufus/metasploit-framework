@@ -30,10 +30,10 @@ class Metasploit3 < Msf::Post
   # Main method
   def run
     hwnd = client.railgun.user32.FindWindowW("Pageant", "Pageant")
-    if !hwnd['return']
+    if hwnd['return'] == 0
       print_error "Pageant not found"
     else
-      print_status "Pageant is running (Handle: #{hwnd['return']})"
+      print_good "Pageant is running (Handle: #{hwnd['return']})"
     end
   end
 end
