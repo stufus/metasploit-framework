@@ -50,18 +50,9 @@ class Metasploit3 < Msf::Auxiliary
     pcap = self.capture
 
     ports = Rex::Socket.portspec_crack(datastore['PORTS'])
+
     if ports.empty?
       raise Msf::OptionValidateError.new(['PORTS'])
-    end
-
-    jitter_value = datastore['JITTER'].to_i
-    if jitter_value < 0
-      raise Msf::OptionValidateError.new(['JITTER'])
-    end
-
-    delay_value = datastore['DELAY'].to_i
-    if delay_value < 0
-      raise Msf::OptionValidateError.new(['DELAY'])
     end
 
     to = (datastore['TIMEOUT'] || 500).to_f / 1000.0
@@ -79,7 +70,7 @@ class Metasploit3 < Msf::Auxiliary
           probe = buildprobe(shost, sport, dhost, dport)
 
           # Add the delay based on JITTER and DELAY if needs be
-          add_delay_jitter(delay_value,jitter_value)
+          add_delay_jitter(datastore['DELAY'], datastore['JITTER'])
 
           unless capture_sendto(probe, dhost)
             host_queue.delete(dhost)

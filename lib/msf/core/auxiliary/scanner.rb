@@ -299,11 +299,8 @@ def scanner_show_progress
   end
 end
 
-def add_delay_jitter(_delay, _jitter)
+def add_delay_jitter(delay, jitter)
   # Introduce the delay
-  delay_value = _delay.to_i
-  original_value = delay_value
-  jitter_value = _jitter.to_i
 
   # Retrieve the jitter value and delay value
   # Delay = number of milliseconds to wait between each request
@@ -311,24 +308,13 @@ def add_delay_jitter(_delay, _jitter)
   # Delay is 1000ms (i.e. 1 second), Jitter is 50.
   # 50/100 = 0.5; 0.5*1000 = 500. Therefore, the per-request
   # delay will be 1000 +/- a maximum of 500ms.
-  if delay_value > 0
-    if jitter_value > 0
-       rnd = Random.new
-       if (rnd.rand(2) == 0)
-          delay_value += rnd.rand(jitter_value)
-       else
-          delay_value -= rnd.rand(jitter_value)
-       end
-       if delay_value < 0
-          delay_value = 0
-       end
-    end
-    final_delay = delay_value.to_f / 1000.0
-    vprint_status("Delaying for #{final_delay} second(s) (#{original_value}ms +/- #{jitter_value}ms)")
-    sleep final_delay
-  end
+  return unless delay > 0  # no delay need
+  rand_jitter = jitter > 0 ? Random.rand(jitter) : 0
+  rand_delay = Random.rand(2) == 0 ? delay + rand_jitter : delay - rand_jitter
+  rand_delay = rand_delay > 0 ? (rand_delay.to_f / 1000.0) : 0
+  vprint_status("Delaying for #{rand_delay} second(s) (#{delay}ms +/- #{jitter}ms)")
+  sleep rand_delay
 end
 
 end
 end
-

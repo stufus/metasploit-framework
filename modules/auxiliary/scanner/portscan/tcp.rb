@@ -22,7 +22,6 @@ class Metasploit3 < Msf::Auxiliary
         This does not need administrative privileges on the source machine, which
         may be useful if pivoting.
       },
-      'Description' => 'Enumerate open TCP services',
       'Author'      => [ 'hdm', 'kris katterjohn' ],
       'License'     => MSF_LICENSE
     )
@@ -50,16 +49,6 @@ class Metasploit3 < Msf::Auxiliary
       raise Msf::OptionValidateError.new(['PORTS'])
     end
 
-    jitter_value = datastore['JITTER'].to_i
-    if jitter_value < 0
-      raise Msf::OptionValidateError.new(['JITTER'])
-    end
-
-    delay_value = datastore['DELAY'].to_i
-    if delay_value < 0
-      raise Msf::OptionValidateError.new(['DELAY'])
-    end
-
     while(ports.length > 0)
       t = []
       r = []
@@ -71,7 +60,7 @@ class Metasploit3 < Msf::Auxiliary
           begin
 
             # Add the delay based on JITTER and DELAY if needs be
-            add_delay_jitter(delay_value,jitter_value)
+            add_delay_jitter(datastore['DELAY'], datastore['JITTER'])
 
             # Actually perform the TCP connection
             s = connect(false,
