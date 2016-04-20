@@ -49,16 +49,6 @@ class Metasploit3 < Msf::Auxiliary
       raise Msf::OptionValidateError.new(['PORTS'])
     end
 
-    jitter_value = datastore['JITTER'].to_i
-    if jitter_value < 0
-      raise Msf::OptionValidateError.new(['JITTER'])
-    end
-
-    delay_value = datastore['DELAY'].to_i
-    if delay_value < 0
-      raise Msf::OptionValidateError.new(['DELAY'])
-    end
-
     while(ports.length > 0)
       t = []
       r = []
