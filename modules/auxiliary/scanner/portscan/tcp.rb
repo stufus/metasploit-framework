@@ -60,7 +60,7 @@ class Metasploit3 < Msf::Auxiliary
           begin
 
             # Add the delay based on JITTER and DELAY if needs be
-            add_delay_jitter(delay_value, jitter_value)
+            add_delay_jitter(datastore['DELAY'], datastore['JITTER'])
 
             # Actually perform the TCP connection
             s = connect(false,
