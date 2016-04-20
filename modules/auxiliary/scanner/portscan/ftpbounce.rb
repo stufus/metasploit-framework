@@ -49,18 +49,9 @@ class Metasploit3 < Msf::Auxiliary
 
   def run_host(ip)
     ports = Rex::Socket.portspec_crack(datastore['PORTS'])
+
     if ports.empty?
       raise Msf::OptionValidateError.new(['PORTS'])
-    end
-
-    jitter_value = datastore['JITTER'].to_i
-    if jitter_value < 0
-      raise Msf::OptionValidateError.new(['JITTER'])
-    end
-
-    delay_value = datastore['DELAY'].to_i
-    if delay_value < 0
-      raise Msf::OptionValidateError.new(['DELAY'])
     end
 
     return if not connect_login
